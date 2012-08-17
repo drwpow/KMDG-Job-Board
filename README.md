@@ -5,8 +5,8 @@ Minimalist, color-coordinated PHP / MySQL / jQuery / AJAX job board
 
 Dependencies
 ------------
-o jQuery
-o jQuery UI (Core, Datepicker, Effects Core)
+* jQuery
+* jQuery UI (Core, Datepicker, Effects Core)
 
 We made a digital job board to replace our worn-out dry erase board around the office,
 and we're pretty darn proud. So proud, in fact, that we're going to share it with the
@@ -34,9 +34,9 @@ worth talking about.
 The way it updates is: jQuery will replace certain items with inputs following an
 onClick event. The inputs follow this format:
 
-o class - This attribute determines the database column to be updated
-o rel - This attribute gives the ID to be updated
-o value - This attribute sets the value to update the entry
+* class - This attribute determines the database column to be updated
+* rel - This attribute gives the ID to be updated
+* value - This attribute sets the value to update the entry
 
 Once there has been an onBlur event called or the Enter key is pressed, a POST request
 is sent to itself, and it will update any input fields it finds with this information
