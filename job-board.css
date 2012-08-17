@@ -42,7 +42,7 @@ nav									{display:block;padding:20px;margin-bottom:-56px;}
 .accounts #handy-nav a:hover		{background:none;border:none;-webkit-box-shadow: 0px 0px 0px 0px #aaa;-moz-box-shadow: 0px 0px 0px 0px #aaa;box-shadow: 0px 0px 0px 0px #aaa;opacity:0.5;}
 
 /* Main */
-#main								{width:75%;}
+#main								{width:72%;}
 #jobs								{width:100%;clear:both;}
 #jobs > div							{display:none;width:95%;margin:0 auto;}
 #jobs > div.selected				{display:block;}
@@ -123,7 +123,7 @@ nav									{display:block;padding:20px;margin-bottom:-56px;}
 #jobs section.completed .right .due h2,
 #jobs section.completed .right .finished h2
 									{margin-bottom:8px;}
-#extras								{padding-top:20px;width:26%;position:absolute;top:0;right:20px;}
+#extras								{padding-top:20px;width:26%;position:absolute;top:0;right:2%;}
 #extras .new-prospective,
 #extras .new-date					{padding:10px 15px 6px;border-radius:8px;font-size:medium;margin-bottom:12px;display:inline-block;background-color:#bbb;color:#333;}
 #extras .new-prospective:hover,

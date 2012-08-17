@@ -1,11 +1,5 @@
 // 1. Initialization
 
-$(window).load(resizeJobs);
-$(window).resize(resizeJobs);
-function resizeJobs() {
-	$('#main').width($(window).width()*0.74-20);
-}
-	
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // why does every program need this?
 
 function loadData() { // loads json array of values into respective content areas
