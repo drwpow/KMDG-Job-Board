@@ -69,4 +69,4 @@ I avoided that here.
 
 Also, at KMDG we've recently done away with inline `$(document).ready()` code in our
 jQuery, and have opted for all external JS files (which don't need this if loaded right
-before the </body> tag).
+before the `</body>` tag).
