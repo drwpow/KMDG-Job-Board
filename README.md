@@ -26,8 +26,6 @@ dependent on jQuery (what isn't), and also needs the jQuery UI library for the
 datepicker as well as to help it out with some of the animations. It also uses SVG
 icons, so it's scalable on any display.
 
-But all this talk and no demo! Where are my manners?
-
 
 Configuration
 -------------
