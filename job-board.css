@@ -1,5 +1,5 @@
 html, body							{margin:0;padding:0;width:100%;height:100%;}
-body								{font:400 medium "soleil", sans-serif;background:url('img/bg.png') repeat center 0;}
+body								{font:400 medium Helvetica, sans-serif;background:url('img/bg.png') repeat center 0;}
 h1, h2, h3, h4, h5, h6				{margin:0;}
 input								{font-size:100%;}
 a									{text-decoration:none;}
@@ -61,15 +61,15 @@ nav									{display:block;padding:20px;margin-bottom:-56px;}
 #jobs section article span.group_name
 									{color:rgba(0,0,0, 0.5);font-size:medium;}
 #jobs section article span.group_name input
-									{font:medium "soleil", sans-serif;padding:6px 4px 4px;margin:-6px -4px -4px;border:0;background-color:#2e2727;color:#fff;}
+									{font:medium Helvetica, sans-serif;padding:6px 4px 4px;margin:-6px -4px -4px;border:0;background-color:#2e2727;color:#fff;}
 #jobs section article h1			{color:#fff;font-weight:normal;display:inline-block;font-size:1.4em;padding:4px 20px 10px 0;text-transform:none;}
 #jobs section article h1 input, #extras section article h1 input
-									{font:1em "soleil", sans-serif;padding:6px 4px 4px;margin:-6px -4px -4px;border:0;background-color:#2e2727;color:#fff;}
+									{font:1em Helvetica, sans-serif;padding:6px 4px 4px;margin:-6px -4px -4px;border:0;background-color:#2e2727;color:#fff;}
 #jobs section.completed article h1	{color:rgba(0,0,0,0.5);}
 #jobs section article span.description
 									{color:rgba(0,0,0, 0.5);font-size:medium;}
 #jobs section article span.description input, #extras section article span.description input
-									{font:medium "soleil", sans-serif;padding:6px 4px 4px;margin:-6px -4px -4px;border:0;background-color:#2e2727;color:#fff;}
+									{font:medium Helvetica, sans-serif;padding:6px 4px 4px;margin:-6px -4px -4px;border:0;background-color:#2e2727;color:#fff;}
 
 #jobs section article:last-of-type,
 #extras section article:last-of-type

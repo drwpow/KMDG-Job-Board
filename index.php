@@ -153,8 +153,6 @@ switch($_POST['action']) {
 <link rel="stylesheet" type="text/css" href="js/jquery-ui-1.8.21.css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.21.js"></script>
-<script type="text/javascript" src="http://use.typekit.com/gho6qsk.js"></script>
-<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 </head>
 <body>
 <div id="main">
