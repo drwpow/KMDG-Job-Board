@@ -19,7 +19,7 @@ We made a digital job board to replace our worn-out dry erase board around the o
 and we're pretty darn proud. So proud, in fact, that we're going to share it with the
 world!
 
-The job board we made is usable, sure—but the important part is it's fun. It's
+The job board we made is usable, sure--but the important part is it's fun. It's
 all AJAX-powered, so you can edit it without any page refreshes, and it even sports a
 few subtle animations to make it application-like. It's also click-to edit. It's
 dependent on jQuery (what isn't), and also needs the jQuery UI library for the
@@ -54,7 +54,7 @@ its own file. The structure is more or less straightforward, but the update syst
 worth talking about.
 
 The way it updates is: jQuery will replace certain items with inputs following an
-onClick event. The inputs follow this format:
+`onClick` event. The inputs follow this format:
 
 * `class `- This attribute determines the database column to be updated
 * `rel` - This attribute gives the ID to be updated
