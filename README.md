@@ -47,6 +47,9 @@ Demo
 ----
 http://sandbox.kmdg.com/job-board/
 
+Note: the eyeball icon is used to group by the project group. Simply click on a group icon to
+group, and click anywhere else to un-group.
+
 
 Download
 --------
