@@ -99,6 +99,15 @@ switch($_POST['action']) {
 		}
 		break;
 
+	case 'move' :
+		$id = $_POST['id'];
+		if($mysql->update(array('prospective' => 0), 'ID = '. $id)) {
+			$data = $mysql->select('*', "ID = '". $id. "'", array('limit' => 1));
+			$data[0]['due'] = strtotime($data[0]['due']);
+			echo json_encode($data[0]);
+		}
+		break;
+
 	case 'add' :
 		$type = $_POST['type'];
 		switch($type) {

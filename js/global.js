@@ -1,4 +1,11 @@
+
 // 1. Initialization
+
+$(window).load(resizeJobs);
+$(window).resize(resizeJobs);
+function resizeJobs() {
+	$('#main').width($(window).width()*0.71);
+}
 
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // why does every program need this?
 
@@ -140,7 +147,7 @@ $('#tabs a').click(function() {
 	return false;
 });
 $(document).on('click', 'a.change', function() {
-	var id = $(this).attr('rel');
+	var id = $(this).attr('data-id');
     $('#date-'+id).datepicker({minDate: 0, onSelect: function(dateText, inst) {
     	$.ajax({url: location.href,
 		type: 'POST',
@@ -148,7 +155,7 @@ $(document).on('click', 'a.change', function() {
 		timeout: 10000,
 		success: function(data) {
 			if(data == 'Success') {
-				loadData();
+				update();
 			}
 		}
 		});
@@ -157,26 +164,27 @@ $(document).on('click', 'a.change', function() {
 });
 $(document).on('click', 'a.show-group', function() {
 	$('article:hidden').stop(true).slideDown(300); // could be better, but difficult with the active / completed tabs hiding some articles already
-	$('#jobs article, #jobs-completed article').not('.'+$(this).attr('rel')).stop(true).slideUp(300);
+	$('#jobs article, #jobs-completed article').not('.'+$(this).attr('data-id')).stop(true).slideUp(300);
 	return false;
 });
 $(document).on('click', 'article h1, article span.group_name, article span.description', function() {
-	var width = $(this).width()*1.25;
+	var width = $(this).closest('section').is('#jobs-prospective') ? $(this).width() : $(this).width()*1.25;
 	var name = $(this).text();
 	var type = $(this).attr('class');
-	var id = $(this).attr('rel');
+	var id = $(this).attr('data-id');
 	if($(this).find('input').length == 0) {
-		$(this).html('<input rel="'+id+'" name="'+type+'" style="width:'+width+'px" value="'+name+'" />');
-		$(this).find('input').focus();
+		$(this).html('<input data-id="'+id+'" name="'+type+'" style="width:'+width+'px" value="'+name+'" />');
+		$(this).find('input').focus().select();
 	}
 });
 $(document).on('blur', 'input', function() {
+	var newJob = $(this).closest('section').is('.new-job');
 	setTimeout(function() {
-		if($('input:focus').length == 0) update(); // Don't re-load if multiple things are being updated.
+		if($('input:focus').length == 0 && newJob === false) update(); // Don't re-load if multiple things are being updated.
 	}, 300);
 });
 $(document).on('click', 'section:not(.completed) a.check', function() {
-	var id = $(this).attr('rel');
+	var id = $(this).attr('data-id');
 	$.ajax({url: location.href,
 		type: 'POST',
 		data: 'action=complete&id='+id,
@@ -193,7 +201,7 @@ $(document).on('click', 'section:not(.completed) a.check', function() {
 	return false;
 });
 $(document).on('click', 'section.completed a.check', function() {
-	var id = $(this).attr('rel');
+	var id = $(this).attr('data-id');
 	$.ajax({url: location.href,
 		type: 'POST',
 		data: 'action=uncomplete&id='+id,
@@ -210,7 +218,7 @@ $(document).on('click', 'section.completed a.check', function() {
 	return false;
 });
 $(document).on('click', 'section a.del', function() {
-	var id = $(this).attr('rel');
+	var id = $(this).attr('data-id');
 	$.ajax({url: location.href,
 		type: 'POST',
 		data: 'action=delete&id='+id,
@@ -227,17 +235,21 @@ $(document).on('click', 'section a.del', function() {
 	return false;
 });
 $(document).on('click', 'section a.move', function() {
-	var id = $(this).attr('rel');
+	var id = $(this).attr('data-id');
 	var now = Math.round(+new Date()/1000);
 	$.ajax({url: location.href,
 		type: 'POST',
-		data: 'action=update&id='+id+'&due='+now+'&complete=0&prospective=0',
+		data: 'action=move&id='+id+'&due='+now,
 		timeout: 10000,
 		success: function(data) {
-			if(data == 'Success') {
+			if(data) {
 				$('#'+id).animate({backgroundColor: '#27cd3b', marginRight: 400, opacity: 0}, 300).slideUp(300, function() {
 					$(this).hide();
-					loadData();
+					data = eval('('+data+')');
+					due = new Date(data.due * 1000);
+					$('#jobs > div:not(#jobs-active)').removeClass('selected');
+					$('#jobs-active').addClass('selected').prepend('<section class="jobs new-job">'+activeFormat(0, data)+'</section>');
+					$('#jobs-active').find('section.new-job > article:eq(0)').height(0).animate({height: 45}, 300);
 				});
 			}
 		}
@@ -258,7 +270,7 @@ $(document).on('blur', '#dataset input', function() {
 	}, 100);
 });
 $('#jobs, #extras').keydown(function(e) {
-	if(e.keyCode == 13) update();
+	if(e.keyCode == 13 && $('section.new-job').length === 0) update();
 });
 $('a.new').click(function() {
 	$("html, body").animate({scrollTop: 0}, 200);
@@ -318,7 +330,7 @@ function update() {
 	$.each(input, function(i, o) {
 		var val = encodeURIComponent($(this).val().replace(/'/g, "’"));
 		var type = $(this).attr('name');
-		var id = $(this).attr('rel');
+		var id = $(this).attr('data-id');
 		$.ajax({url: location.href,
 			type: 'POST',
 			data: 'action=update&id='+id+'&'+type+'='+val,
@@ -341,7 +353,7 @@ function activeFormat(i, val) {
 	var due = new Date(val.due * 1000);
 	var title = '';
 	if(i == 0) title = '<h2>Complete?</h2>';
-	return '<article id="'+val.ID+'" class="job '+gslug+'"><a href="#" class="del" rel="'+val.ID+'">×</a><div class="left"><span class="group_name" rel="'+val.ID+'">'+val.group_name+'</span><a class="show-group" href="#" rel="'+gslug+'">Show</a><div class="details"><h1 class="name" rel="'+val.ID+'">'+val.name+'</h1><span class="description" rel="'+val.ID+'">'+val.description+'</span></div></div><div class="right"><div class="completed">'+title+'<a class="check" href="#" rel="'+val.ID+'">&#10003;</a></div><div class="due">'+months[due.getMonth()]+' '+due.getDate()+'<input id="date-'+val.ID+'" class="date" type="text" /><a class="change" href="#" rel="'+val.ID+'">Change</a></div></div></article>';
+	return '<article id="'+val.ID+'" class="job '+gslug+'"><a href="#" class="del" data-id="'+val.ID+'">×</a><div class="left"><span class="group_name" data-id="'+val.ID+'">'+val.group_name+'</span><a class="show-group" href="#" data-id="'+gslug+'">Show</a><div class="details"><h1 class="name" data-id="'+val.ID+'">'+val.name+'</h1><span class="description" data-id="'+val.ID+'">'+val.description+'</span></div></div><div class="right"><div class="completed">'+title+'<a class="check" href="#" data-id="'+val.ID+'">&#10003;</a></div><div class="due">'+months[due.getMonth()]+' '+due.getDate()+'<input id="date-'+val.ID+'" class="date" type="text" /><a class="change" href="#" data-id="'+val.ID+'">Change</a></div></div></article>';
 }
 
 function completedFormat(i, val) {
@@ -350,16 +362,16 @@ function completedFormat(i, val) {
 	var finished = new Date(val.finished * 1000);
 	var titles = ['', '', ''];
 	if(i == 0) titles = ['<h2>Complete?</h2>', '<h2>Due</h2>', '<h2>Finished</h2>'];
-	return '<article id="'+val.ID+'" class="job '+gslug+'"><a href="#" class="del" rel="'+val.ID+'">×</a><div class="left"><span class="group_name" rel="'+val.ID+'">'+val.group_name+'</span><a class="show-group" href="#" rel="'+gslug+'">Show</a><div class="details"><h1 class="name" rel="'+val.ID+'">'+val.name+'</h1><span class="description" rel="'+val.ID+'">'+val.description+'</span></div></div><div class="right"><div class="completed">'+titles[0]+'<a class="check marked" href="#" rel="'+val.ID+'">&#10003;</a></div><div class="due">'+titles[1]+months[due.getMonth()]+' '+due.getDate()+'<input id="'+val.ID+'" class="date" type="text" /></div><div class="finished">'+titles[2]+months[finished.getMonth()]+' '+finished.getDate()+'</div></div></article>';
+	return '<article id="'+val.ID+'" class="job '+gslug+'"><a href="#" class="del" data-id="'+val.ID+'">×</a><div class="left"><span class="group_name" data-id="'+val.ID+'">'+val.group_name+'</span><a class="show-group" href="#" data-id="'+gslug+'">Show</a><div class="details"><h1 class="name" data-id="'+val.ID+'">'+val.name+'</h1><span class="description" data-id="'+val.ID+'">'+val.description+'</span></div></div><div class="right"><div class="completed">'+titles[0]+'<a class="check marked" href="#" data-id="'+val.ID+'">&#10003;</a></div><div class="due">'+titles[1]+months[due.getMonth()]+' '+due.getDate()+'<input id="'+val.ID+'" class="date" type="text" /></div><div class="finished">'+titles[2]+months[finished.getMonth()]+' '+finished.getDate()+'</div></div></article>';
 }
 
 function prospectiveFormat(i, val) {
 	var titles = '';
 	if(i == 0) title = '<h2>Move</h2>';
-	return '<article id="'+val.ID+'" class="prospective"><a href="#" class="del" rel="'+val.ID+'">×</a><h1 class="name" rel="'+val.ID+'">'+val.name+'</h1><span class="description" rel="'+val.ID+'">'+val.description+'</span><div class="right"><div class="actions">'+title+'<a href="#" class="move" rel="'+val.ID+'">&larr;</a></div></div></article>';
+	return '<article id="'+val.ID+'" class="prospective"><a href="#" class="del" data-id="'+val.ID+'">×</a><h1 class="name" data-id="'+val.ID+'">'+val.name+'</h1><span class="description" data-id="'+val.ID+'">'+val.description+'</span><div class="right"><div class="actions">'+title+'<a href="#" class="move" data-id="'+val.ID+'">&larr;</a></div></div></article>';
 }
 
 function datesFormat(i, val) {
-	return '<article id="'+val.ID+'" class="date"><a href="#" class="del" rel="'+val.ID+'">×</a><h1 class="name" rel="'+val.ID+'">'+val.name+'</h1><span class="description" rel="'+val.ID+'">'+val.description+'</span></article>';
+	return '<article id="'+val.ID+'" class="date"><a href="#" class="del" data-id="'+val.ID+'">×</a><h1 class="name" data-id="'+val.ID+'">'+val.name+'</h1><span class="description" data-id="'+val.ID+'">'+val.description+'</span></article>';
 }
 
