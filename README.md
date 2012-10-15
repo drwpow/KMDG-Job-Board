@@ -1,7 +1,15 @@
-KMDG-Job-Board v1.01
+KMDG-Job-Board v1.02
 ====================
 
 Minimalist, color-coordinated PHP / MySQL / jQuery / AJAX job board
+
+History
+-------
+v1.02 - 15 October 2012
+* New jobs now wait until a date is selected before the page is re-loaded
+* Prospective jobs appear in the “New Job” section
+* Other minor appearance adjustments
+* Changed the “rel” attribute to “data-id” to pretend like I actually know what HTML5 is.
 
 Dependencies
 ------------
@@ -21,7 +29,7 @@ world!
 
 The job board we made is usable, sure--but the important part is it's fun. It's
 all AJAX-powered, so you can edit it without any page refreshes, and it even sports a
-few subtle animations to make it application-like. It's also click-to edit. It's
+few subtle animations to make it application-like. It's also click-to-edit. It's
 dependent on jQuery (what isn't), and also needs the jQuery UI library for the
 datepicker as well as to help it out with some of the animations. It also uses SVG
 icons, so it's scalable on any display.
@@ -57,7 +65,7 @@ The way it updates is: jQuery will replace certain items with inputs following a
 `onClick` event. The inputs follow this format:
 
 * `class `- This attribute determines the database column to be updated
-* `rel` - This attribute gives the ID to be updated
+* `data-id` - This attribute gives the ID to be updated
 * `value` - This attribute sets the value to update the entry
 
 Once there has been an `onBlur` event called or the `Enter` key is pressed, a POST request
