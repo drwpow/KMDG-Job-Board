@@ -327,21 +327,25 @@ $('a.new-date').click(function() {
 
 function update() {
 	var input = $('input:visible');
-	$.each(input, function(i, o) {
-		var val = encodeURIComponent($(this).val().replace(/'/g, "’"));
-		var type = $(this).attr('name');
-		var id = $(this).attr('data-id');
-		$.ajax({url: location.href,
-			type: 'POST',
-			data: 'action=update&id='+id+'&'+type+'='+val,
-			timeout: 20000, // 10 sec timeout
-			success: function(data) {
-				if(data == 'Success') {
-					loadData();
+	if(input.length === 0) {
+		loadData();	
+	} else {
+		$.each(input, function(i, o) {
+			var val = encodeURIComponent($(this).val().replace(/'/g, "’"));
+			var type = $(this).attr('name');
+			var id = $(this).attr('data-id');
+			$.ajax({url: location.href,
+				type: 'POST',
+				data: 'action=update&id='+id+'&'+type+'='+val,
+				timeout: 20000, // 10 sec timeout
+				success: function(data) {
+					if(data == 'Success') {
+						loadData();
+					}
 				}
-			}
+			});
 		});
-	});
+	}
 }
 
 function slugParse(input) {

@@ -160,7 +160,7 @@ switch($_POST['action']) {
 <title>KMDG Job Board</title>
 <link rel="stylesheet" type="text/css" href="job-board.css" />
 <link rel="stylesheet" type="text/css" href="js/jquery-ui-1.8.21.css" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.21.js"></script>
 </head>
 <body>
